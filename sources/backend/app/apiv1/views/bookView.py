@@ -1,4 +1,4 @@
-from rest_framework import serializers, views
+from rest_framework import exceptions, serializers, views
 from utils.decorators import handle_request
 
 from apiv1.models.book import Book
@@ -20,9 +20,8 @@ class BookRequestSerializer(serializers.Serializer):
 class BookView(views.APIView):
     @request(res=BookCreateSerializer(many=True))
     def get(self, request, *args, **kwargs):
-        pass
+        raise exceptions.NotFound
 
-    # TODO: passならNginxで404になりそうなので、そんな時はモックにリダイレクトするとか
     @request(req=BookCreateSerializer, res=BookCreateSerializer)
     def post(self, request, *args, **kwargs):
-        pass
+        raise exceptions.NotFound

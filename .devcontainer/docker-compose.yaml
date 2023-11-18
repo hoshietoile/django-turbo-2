@@ -8,17 +8,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ../../:/workspaces
-      # - ./../sources/backend/:/workspaces/sources/backend
-      # - ./schema.yaml:/workspaces/sources/backend/schema.yaml
       - ./schema.yaml:/workspaces/django_turbo/sources/backend/schema.yaml
       - ./schema.yaml:/workspaces/django_turbo/sources/frontend/packages/api/schema.yaml
-
-      # - ./../sources/frontend/:/orkspaces/sources/frontend
-      # - ./sources/Makefile:/workspace/app/Makefile
-
-    # command: make -j dev-backend dev-frontend
-    # command: poetry run python /workspace/app/backend/app/manage.py runserver 0.0.0.0:8000
-    # command: poetry run python /workspace/app/backend/app/manage.py runserver 0.0.0.0:8000
     tty: true
     ports:
       - 8000:8000
@@ -36,6 +27,7 @@ services:
     env_file: ./.env/
     volumes:
       - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - db_data:/var/lib/mysql
     command: --default_authentication_plugin=mysql_native_password
 
   mock:
@@ -61,5 +53,8 @@ services:
       - ../../:/workspaces
     depends_on:
       - app
-# volumes:
-#   db_data:
+
+  # TODO: https-portal
+
+volumes:
+  db_data:
