@@ -1,0 +1,88 @@
+openapi: 3.0.3
+info:
+  title: プロジェクト名
+  version: 1.0.0
+  description: 詳細
+paths:
+  /api/v1/books:
+    get:
+      operationId: v1_books_retrieve
+      tags:
+      - books
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookCreate'
+          description: ''
+        '201':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BookCreate'
+          description: ''
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+    post:
+      operationId: v1_books_create
+      tags:
+      - books
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BookCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BookCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BookCreate'
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookCreate'
+          description: ''
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookCreate'
+          description: ''
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    BookCreate:
+      type: object
+      properties:
+        title:
+          type: string
+          nullable: true
+          maxLength: 100
+        price:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid

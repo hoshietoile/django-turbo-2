@@ -1,0 +1,39 @@
+{
+  "<GLOBAL_SETTINGS>": "",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "<PYTHON_SETTINGS>": "",
+  "python.analysis.extraPaths": ["./sources/backend/app"],
+  "python.linting.enabled": true,
+  "python.linting.lintOnSave": true,
+  "python.languageServer": "Pylance",
+  "python.analysis.completeFunctionParens": true,
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.indexing": true,
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true,
+      "source.organizeImports": true
+    }
+  },
+  "python.testing.pytestArgs": ["tests", "--capture=tee-sys", "-vv"],
+  "python.testing.pytestEnabled": true,
+  "<TYPESCRIPT_SETTINGS>": "",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll": true
+    }
+  },
+  "<VSCODE_EXTENSIONS_SETTINGS>": "",
+  "cSpell.ignoreRegExpList": ["openapi", "codegen", "apiv1"],
+  "cSpell.ignorePaths": [
+    "package-lock.json",
+    "node_modules",
+    "vscode-extension",
+    ".git/objects",
+    ".vscode",
+    ".vscode-insiders",
+    ".devcontainer"
+  ]
+}

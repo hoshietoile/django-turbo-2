@@ -1,0 +1,65 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: django_turbo_app
+    build:
+      context: ./app/
+      dockerfile: Dockerfile
+    volumes:
+      - ../../:/workspaces
+      # - ./../sources/backend/:/workspaces/sources/backend
+      # - ./schema.yaml:/workspaces/sources/backend/schema.yaml
+      - ./schema.yaml:/workspaces/django_turbo/sources/backend/schema.yaml
+      - ./schema.yaml:/workspaces/django_turbo/sources/frontend/packages/api/schema.yaml
+
+      # - ./../sources/frontend/:/orkspaces/sources/frontend
+      # - ./sources/Makefile:/workspace/app/Makefile
+
+    # command: make -j dev-backend dev-frontend
+    # command: poetry run python /workspace/app/backend/app/manage.py runserver 0.0.0.0:8000
+    # command: poetry run python /workspace/app/backend/app/manage.py runserver 0.0.0.0:8000
+    tty: true
+    ports:
+      - 8000:8000
+      - 3000:3000
+      - 3001:3001
+    depends_on:
+      - db
+
+  db:
+    platform: linux/x86_64
+    container_name: django_turbo_db
+    image: mysql:8.0.28
+    ports:
+      - 3306:3306
+    env_file: ./.env/
+    volumes:
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+    command: --default_authentication_plugin=mysql_native_password
+
+  mock:
+    container_name: django_turbo_mock
+    image: stoplight/prism:4
+    command: "mock -d -h 0.0.0.0 -p 4010 /tmp/schema.yaml"
+    tty: true
+    volumes:
+      - ./schema.yaml:/tmp/schema.yaml
+    ports:
+      - 4010:4010
+
+  web:
+    container_name: django_turbo_web
+    build:
+      context: ./web/
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./web/default.conf:/etc/nginx/conf.d/default.conf
+      - ./web/uwsgi_params:/etc/nginx/uwsgi_params
+      - ../../:/workspaces
+    depends_on:
+      - app
+# volumes:
+#   db_data:
